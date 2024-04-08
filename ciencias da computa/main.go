@@ -1,7 +1,7 @@
-package db
+package main
 
 import (
-	"aula-database/Produto"
+	"Produto-Database/Produto"
 	"database/sql"
 	"github.com/go-sql-driver/mysql"
 	"log"
@@ -18,7 +18,7 @@ func connectDB() *sql.DB {
 	config := mysql.NewConfig()
 	config.User = "root"
 	config.Passwd = "12345678"
-	config.DBName = "web"
+	config.DBName = "Catalogo_de_produtos"
 	conn, err := mysql.NewConnector(config)
 	if err != nil {
 		panic(err)
