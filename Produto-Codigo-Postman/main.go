@@ -40,7 +40,26 @@ func createServer() error {
 	mux.HandleFunc("/products/update/", productController.Update) // Update a product by id
 	mux.HandleFunc("/products/delete/", productController.Delete) // Delete a product by id
 
-	return http.ListenAndServe("localhost:8080", mux)
+	// Adiciona middleware para habilitar o CORS
+	handler := allowCORS(mux)
+
+	return http.ListenAndServe("localhost:8080", handler)
+}
+
+// Middleware para habilitar o CORS
+func allowCORS(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
+
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		h.ServeHTTP(w, r)
+	})
 }
 
 func main() {
