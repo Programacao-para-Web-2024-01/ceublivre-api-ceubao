@@ -59,6 +59,12 @@ func (p *ProductController) Create(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	// Validate required fields
+	if product.Name == "" || product.Description == "" || product.Price == 0 || product.Categoria_idcategoria == 0 {
+		http.Error(w, "Todos os campos são obrigatórios", http.StatusBadRequest)
+		return
+	}
+
 	newProduct, err := p.service.Create(product)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

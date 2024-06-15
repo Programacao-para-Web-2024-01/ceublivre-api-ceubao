@@ -3,16 +3,19 @@ package main
 import (
 	"aula-database/products"
 	"database/sql"
-	"github.com/go-sql-driver/mysql"
 	"log"
 	"net/http"
+
+	"github.com/go-sql-driver/mysql"
 )
 
 func connectDB() *sql.DB {
 	config := mysql.NewConfig()
 	config.User = "root"
-	config.Passwd = "12345678"
+	config.Passwd = "batata22"
 	config.DBName = "market"
+	config.Net = "tcp"
+	config.Addr = "127.0.0.1:3306"
 	conn, err := mysql.NewConnector(config)
 	if err != nil {
 		panic(err)
